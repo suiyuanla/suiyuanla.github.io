@@ -2,7 +2,7 @@ baseURL: https://example.org/
 languageCode: zh-CN
 title: Suiyuan's Blog
 theme: PaperMod
-publishDir: "/home/pathfinder/code/Note/suiyuan-blog-html"
+publishDir: "public"
 
 # 分类标签
 taxonomies:
