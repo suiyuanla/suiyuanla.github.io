@@ -59,7 +59,7 @@ params:
       url: "index.xml"
   # --- 文章选项
   editPost:
-    URL: "https://github.com/suiyuanla/suiyuan-blog/content"
+    URL: "https://github.com/suiyuanla/suiyuanla.github.io/content"
     Text: "建议"
     appendFilePath: true
   # 阅读时长

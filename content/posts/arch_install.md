@@ -23,7 +23,7 @@ series:
 1. 从[阿里云镜像站](http://mirrors.aliyun.com/archlinux/iso/2023.08.01/)下载镜像
 2. (可选)在有gpg环境的系统中通过一下命令验证下载的镜像
 
-   ```shell
+   ```bash
    gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig
    ```
 
@@ -31,26 +31,26 @@ series:
 
 1. 验证引导模式
 
-   ```shell
+   ```bash
    ls /sys/firmware/efi/efivars
    ```
 
 2. 验证网络
 
-   ```shell
+   ```bash
    ip a            # 查看网络连接
    ping arch.org   # 查看是否连上网
    ```
 
 3. 更新系统时间
 
-   ```shell
+   ```bash
    timedatectl     # 更新系统时间
    ```
 
 4. 创建硬盘分区
 
-   ```shell
+   ```bash
    fdisk -l        # 查看块设备，结果中以 rom、loop 或者 airoot 结尾的设备可以被忽略
 
    # 此设置会占满一整个物理设备
@@ -96,7 +96,7 @@ series:
 
 5. 安装系统
 
-   ```shell
+   ```bash
    # 使用reflector更新系统软件源
    reflector --latest 5 --country China --protocol http,https --sort rate --save /etc/pacman.d/mirrorlist
 
@@ -107,7 +107,7 @@ series:
 
 6. 配置系统
 
-   ```shell
+   ```bash
    # 生成 fstab 文件
    genfstab -U /mnt >> /mnt/etc/fstab
    cat /mnt/etc/fstab  # 检查fstab是否正确
@@ -131,7 +131,7 @@ series:
 
 7. 网络配置
 
-   ```shell
+   ```bash
    echo "自定义主机名：如(myarch)" > /etc/hostname
    # 将一下内容写入 /etc/hosts
    127.0.0.1        localhost
@@ -144,7 +144,7 @@ series:
 
 8. 其他工作
 
-   ```shell
+   ```bash
    # 设置root密码
    passwd
    # 设置grub引导
@@ -175,7 +175,7 @@ series:
 
 1. 准备工作
 
-   ```shell
+   ```bash
    # 配置aur
    sudo vi /etc/pacman.conf
    # 添加
