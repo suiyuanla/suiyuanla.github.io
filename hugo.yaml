@@ -38,10 +38,10 @@ outputs:
 
 params:
   assets:
-    disableHLJS: true
-    favicon: "https://suiyuanla.github.io/profile-photo/1-img.jpg"
-    favicon16x16: "https://suiyuanla.github.io/profile-photo/1-img.jpg"
-    favicon32x32: "https://suiyuanla.github.io/profile-photo/1-img.jpg"
+    # disableHLJS: true
+    favicon: "profile-photo/1-img.jpg"
+    favicon16x16: "profile-photo/1-img.jpg"
+    favicon32x32: "profile-photo/1-img.jpg"
   # 设置主页描述
   homeInfoParams:
     Title: "Suiyuan 的博客"
