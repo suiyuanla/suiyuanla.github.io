@@ -1,7 +1,7 @@
 ---
 title: "记录Hugo博客搭建过程"
 date: "2024-08-09T10:23:47+08:00"
-draft: true
+draft: false
 categories:
   - fun
 tags:
