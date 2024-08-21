@@ -35,7 +35,21 @@ outputs:
     - HTML
     - RSS
     - JSON
-
+# Markdown渲染为HTML的设置
+markup:
+  goldmark:
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+            - - \[
+              - \]
+            - - $$
+              - $$
+          inline:
+            - - \(
+              - \)
+        enable: true
 params:
   assets:
     # disableHLJS: true
@@ -77,3 +91,7 @@ params:
   # 开启评论功能
   comments: true
   # ShowRssButtonInSectionTermList: true
+  # 开启Latex渲染，配合markup设置
+  math: true
+  # 开启GitInfo主要用于显示文章最后编辑时间
+  enableGitInfo: true

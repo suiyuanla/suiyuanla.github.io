@@ -17,7 +17,7 @@ series:
 ## 一、 整体架构
 
 1. 使用[Markdown](https://zh.wikipedia.org/wiki/Markdown)编写博客文章。
-2. 使用[Hugp](https://gohugo.io/) 将Markdown 文章转换为HTML 网页代码。
+2. 使用[Hugo](https://gohugo.io/) 将Markdown 文章转换为HTML 网页代码。
 3. 使用[PaperMod](https://github.com/adityatelange/hugo-PaperMod) 作为**Hugo** 的网页主题，提供美观的界面。
 4. 使用[Disqus](https://gohugo.io/content-management/comments/) 基于**Github Discuss** 提供评论功能。
 5. 利用[Github Pages](https://pages.github.com/) 部署和访问博客(Github提供的 github.io 域名)。
@@ -110,12 +110,77 @@ draft: true
 ---
 ```
 
+> 注意：如果想在文章中方便的添加图片，并使用相对路径来访问图片，需要将一篇文章放在一个文件夹内（如：content/posts/blog-1/），然后文章以index.md命名。假如有张图片路径为：`blog-1/imgs/1.jpg`，就可以在index.md内通过`![text](imgs/1.jpg)`来显示这张图片。详细内容参考：[Hugo: Page resources](https://gohugo.io/content-management/page-resources/)
+
 可以使用下面命令创建和预览文章：
 
 ```bash
 # 会在content/posts/ 创建test.md，可以用vscode打开suiyuan-blog这个文件夹作为项目，编写Markdown
 hugo new content content/posts/test.md
 hugo server --buildDrafts   # --buildDrafts 会build我们新建的草稿，在浏览器访问localhost:1313可以看到搭建的网站
+```
+
+### 开启Latex渲染
+
+> 注意：此部分内容由于使用`PaperMod`主题，因此配置与官网设置不同，如果主题不同请参考下面给出的参考链接。
+
+由于阅读论文等一些内容时，会使用Latex书写数学公式，因此需要开启Markdown的Latex渲染。此部分参考: [Hugo: Mathematics in Markdown](https://gohugo.io/content-management/mathematics)、[Hugo-PaperMod: How to enable Math Typesetting in PaperMod?](https://github.com/adityatelange/hugo-PaperMod/issues/236)。
+首先在`hugo.yaml`，添加下列内容:
+
+```yaml
+markup:
+  goldmark:
+    extensions:
+      passthrough: # 此项是将指定的分隔符以及分隔符内容直通给HTML,以便Katex等能够渲染
+        delimiters:
+          block: # 块级符号
+            - - \[
+              - \]
+            - - $$
+              - $$
+          inline: # 行内符号
+            - - \(
+              - \)
+        enable: true
+params:
+  math: true # 此项的作用是为`md`文件默认开启Latex渲染
+```
+
+然后创建文件：`layouts/partials/extend_head.html`，在里面添加下列内容：
+
+```html
+{{ if or .Params.math .Site.Params.math }}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+  integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+  integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "\\[", right: "\\]", display: true }, // block
+        { left: "$$", right: "$$", display: true }, // block
+        { left: "\\(", right: "\\)", display: false }, // inline
+      ],
+      throwOnError: false,
+    });
+  });
+</script>
+{{ end }}
 ```
 
 ### 评论功能
