@@ -112,7 +112,30 @@ RADOS 使用异步、有序的点对点消息传递库进行通信。TCP 套接�
 
 ### 3.4 数据迁移和故障恢复（Data Migration and Failure Recovery）
 
+集群的数据迁移和故障恢复主要是由设备故障、副本发放策略更新等引起的 Cluster Map 更新和 PG 到 OSD 的映射改变引起。其恢复策略主要依赖于 OSD 会积极的复制 PG 日志和对 PG 当前内容版本记录。
+
+### 3.4.1 Peering
+
+当一个 OSD 收到 Cluster Map 更新时，它会遍历 map 的增量信息，检查和调整 PG 的状态。如果此 OSD 上有 PG 的 OSD 活动列表发生更改，则这些 PG 会被标记为 must re-peer。即使对于某个 PG，它的 OSD 列表中删除又添加了同一个 OSD，也需要进行 re-peer，防止期间有数据改变。Peering 和 replication 都是基于 PG 独立进行的。
+
+当 OSD 参与 Peering 时，如果它不是该 PG 的 primary，则会向 primary 发送一个 Notify 信息。Notify 信息包含了 OSD 本地存储的 PG 的基本状态信息（最近更新信息，PG 日志的边界，PG 最近一次成功 peering 时的 epoch）。一旦收到 Notify 信息，主节点会生成一个 proir set，包括自上次成功 peering 可能参与到这个 PG 的所有 OSD。Primary 会主动查询 prior set 里的 OSD（询问它们是否还存储有该 PG），避免无限期的等待实际未存储 PG 的 OSD 响应。
+
+有了整个 proir set 的元数据，primary 可以确定应用于所有副本的最新更新，并从 prior OSD 上请求所需的日志片段，以保持新的活动列表的 PG 日志最新。如果可用的日志不足，则会生成完整的 PG 内容的列表，不过这种情况不是很多。
+
+最后 primary 与副本 OSD 共享丢失的日志片段，以便所有副本都知道 PG 应该包含哪些对象，并在后台进行恢复的同时开始处理 IO。
+
+### 3.4. Recovery（恢复）
+
+虽然每个 OSD 都拥有所有 PG 的元数据，各个 OSD 可以独立的去其他持有该 PG 的 OSD 获取自己丢失的 PG，但是这么做有两个缺点：
+
+1. 如果各个 OSD 独立地去查询恢复同一个 PG，它们并不一定会同时去查询，导致查询和读取的重复。
+2. 如果 OSD 缺少正在修改的对象，复制将变得复杂。
+
+因此，RADOS 中的 PG 恢复由 primary 来协调。对丢失对象的操作将延迟到 primary 拥有本地副本。由于 primary 已经通过 peering 过程知道所有的副本 OSD 缺少了哪些 PG，它可以抢先地把即将被修改的任何丢失对象 push 到副本 OSD，从而简化复制逻辑，也使得只读取存活副本一次。Primary 会将需要 push 的对象推送到所有需要的 OSD，在这期间这个 PG 都保存在它的内存，确保只读取一次。
+
 ## 4. Monitor
+
+一个小的 monitor 集群共同负责管理存储系统。它们存储着 Cluster Map 的主副本，并且当配置或 OSD 状态更改的时候进行更新。Monitor 之间使用 Paxos 一致性算法。
 
 ### 4.1 Paxos 服务
 
