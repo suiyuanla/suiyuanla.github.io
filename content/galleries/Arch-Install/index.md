@@ -229,7 +229,7 @@ series:
    reboot # 重启
    ```
 
-### 三、双系统的部分配置
+## 双系统的部分配置
 
 双系统可以参考 Arch Wiki 的[部分内容](https://wiki.archlinuxcn.org/wiki/Arch_%2B_Windows_%E5%8F%8C%E7%B3%BB%E7%BB%9F)。
 
@@ -251,7 +251,7 @@ grub-mkconfig -o /boot/grub/grub.cfg    # 生成grub配置
 
 完成后即可在 Grub 引导界面看到 windows 系统。
 
-### 四、桌面环境的配置
+## 桌面环境的配置
 
 个人喜欢使用 KDE 桌面，具体的细节与问题可以参考[Arch Wiki KDE](https://wiki.archlinuxcn.org/wiki/KDE)
 
@@ -285,7 +285,7 @@ Environment="LANG=zh_CN.UTF-8"
 --enable-wayland-ime
 ```
 
-### 五、输入法配置：
+## 输入法配置：
 
 个人使用 Fcitx5，对应 Arch Wiki 页面为[Fcitx5](https://wiki.archlinuxcn.org/wiki/Fcitx5)。
 
@@ -312,7 +312,7 @@ XMODIFIERS=@im=fcitx
 gtk-im-module=fcitx
 ```
 
-### 六、Shell 配置和美化：
+## Shell 配置和美化：
 
 此处完全是个人习惯，字体喜欢使用`JetBrainsMono Nerd Font`，终端喜欢使用`zsh`，zsh 插件框架喜欢使用[`zimfw`](https://github.com/zimfw/zimfw)，主题喜欢使用[`powerlevel10k`](https://github.com/romkatv/powerlevel10k)
 
