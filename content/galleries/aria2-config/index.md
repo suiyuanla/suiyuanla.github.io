@@ -1,7 +1,7 @@
 ---
 title: "Aria2全能下载器配置"
 date: "2024-09-14T14:11:14+08:00"
-draft: true
+draft: false
 categories:
   - fun
 tags:
