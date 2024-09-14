@@ -1,7 +1,8 @@
 baseURL: https://suiyuanla.github.io/
 defaultContentLanguage: zh
 title: Suiyuan's Blog
-theme: PaperMod
+# theme: PaperMod
+theme: KamiMod
 publishDir: "public"
 
 # 分类标签
