@@ -1,7 +1,7 @@
 ---
 title: "SSH使用记录"
 date: "2024-09-19T14:14:57+08:00"
-draft: true
+draft: false
 categories:
   - Development
   - linux
