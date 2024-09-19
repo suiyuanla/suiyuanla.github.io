@@ -65,11 +65,15 @@ rpc-secret=P3TERX
 ```ini
 # 文件位置：~/.config/systemd/user/aria2cd.service
 [Unit]
-Description=aria2 Daemon
+Description=aria2 daemon
+# 在网络和dns服务启动后再启动
+Wants=network-online.target
+After=network-online.target nss-lookup.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/aria2c --conf-path=/path/to/conf
+# %h 是当前用户的home目录
+ExecStart=/usr/bin/aria2c --conf-path=%h/.aria2/aria2.conf
 
 [Install]
 WantedBy=default.target
@@ -77,35 +81,36 @@ WantedBy=default.target
 
 除了这些配置，可以手动运行`~/.aria2/tracker.sh ~/.aria2/aria2.conf`，这个脚本将更新 aria2.conf 里的 BT Tracker 列表，可以写一个定时任务让其定期更新 Tracker:
 
+首先编写一个更新 tracker 的 service：
+
 ```ini
-# 首先编写一个更新tracker的service
 # 文件位置：~/.config/systemd/user/aria2-update-tracker.service
 [Unit]
 Description=Update aria2 tracker
-After=network.target
-Wants=network.target
+Wants=network-online.target
+After=network-online.target nss-lookup.target
 
 [Service]
-Type=simple
-ExecStart=/bin/bash -c "/path/to/home/.aria2/tracker.sh /path/to/home/.aria2/aria2.conf"
+Type=oneshot
+ExecStart=/bin/bash -c "%h/.aria2/tracker.sh %h/.aria2/aria2.conf"
 
 [Install]
 WantedBy=default.target
+```
 
-# 再编写一个定时任务
-# 文件位置：~/.config/systemd/user/aria2-update-tracker.timer
+再写一个对应的 timer：
+
+```ini
 [Unit]
-Description=Run aria2-update-tracker.service every 12 hours
+Description=Run aria2-update-tracker.service weekly
 
 [Timer]
-# 在开机30s后运行第一次
-OnBootSec=30s
-# 每12h运行一次，如果只想开机自动更新可以注释这一行
-OnActiveSec=12h
+# 每周周一运行一次，如果当时系统没启动错过了，则在启动后立即执行
+OnCalendar=weekly
 Persistent=true
 
 [Install]
-WantedBy=default.target
+WantedBy=timers.target
 ```
 
 启动对应的服务（不需要 sudo）：

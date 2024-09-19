@@ -1,6 +1,13 @@
 ---
-title: '{{ replace .File.ContentBaseName "-" " " | title }}'
+title: "{{ replace .Name "-" " " | title }}"
 date: "{{ .Date }}"
-lastmod: '{{ .Lastmod | time.Format ":date_medium" }}'
 draft: true
+categories:
+  - Development
+  - linux
+tags:
+  - archlinux
+  - coding
+series:
+  - "arch从零开始"
 ---
