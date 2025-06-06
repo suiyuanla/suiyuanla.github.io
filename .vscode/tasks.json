@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "启动Hugo服务器",
+      "type": "shell",
+      "command": "hugo server -b http://localhost:1313",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "hugo",
+        "pattern": {
+          "regexp": "^$",
+          "file": 0,
+          "location": 0,
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Start building sites …",
+          "endsPattern": "Web Server is available at http://localhost:1313/"
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

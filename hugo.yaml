@@ -1,0 +1,98 @@
+baseURL: https://suiyuanla.github.io/
+defaultContentLanguage: zh
+title: Suiyuan's Blog
+# theme: PaperMod
+theme: KamiMod
+publishDir: "public"
+
+# 分类标签
+taxonomies:
+  category: categories
+  tag: tags
+  series: series
+
+# 设置主页右上角菜单
+menu:
+  main:
+    - name: 搜索
+      url: search
+      weight: 1
+    - name: 归档
+      url: archives
+      weight: 5
+    - name: 标签
+      url: tags
+      weight: 10
+    - name: 分类
+      url: categories
+      weight: 10
+    - name: 系列
+      url: series
+      weight: 10
+
+# 开启搜索功能
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+# Markdown渲染为HTML的设置
+markup:
+  goldmark:
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+            - - \[
+              - \]
+            - - $$
+              - $$
+          inline:
+            - - \(
+              - \)
+        enable: true
+params:
+  assets:
+    # disableHLJS: true
+    favicon: "profile-photo/1-img.jpg"
+    favicon16x16: "profile-photo/1-img.jpg"
+    favicon32x32: "profile-photo/1-img.jpg"
+  # 设置主页描述
+  homeInfoParams:
+    Title: "Suiyuan 的博客"
+    Content: >
+      欢迎来到我的个人博客
+
+      - 记录学习的过程 ☁️
+
+      - 分享有趣的知识 📘
+  # 主页描述下的链接
+  socialIcons:
+    - name: "Github"
+      url: "https://github.com/suiyuanla"
+    - name: Rss
+      url: "index.xml"
+  # --- 文章选项
+  editPost:
+    URL: "https://github.com/suiyuanla/suiyuanla.github.io/tree/main/content"
+    Text: "建议"
+    appendFilePath: true
+  # 阅读时长
+  ShowReadingTime: true
+  # 目录
+  ShowToc: true
+  # 导航，eg. Home >> posts
+  ShowBreadCrumbs: true
+  # 上一篇，下一篇按钮
+  ShowPostNavLinks: true
+  # 代码块复制按钮
+  ShowCodeCopyButtons: true
+  # 默认作者
+  author: ["suiyuanla"]
+  # 开启评论功能
+  comments: true
+  # ShowRssButtonInSectionTermList: true
+  # 开启Latex渲染，配合markup设置
+  math: true
+  # 开启GitInfo主要用于显示文章最后编辑时间
+  enableGitInfo: true
