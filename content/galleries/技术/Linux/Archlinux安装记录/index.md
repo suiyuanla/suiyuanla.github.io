@@ -10,7 +10,7 @@ tags:
   - coding
 series:
   - arch从零开始
-lastmod: 2025-06-06T09:04:42.642Z
+lastmod: 2025-06-07T05:21:47.000Z
 ---
 ## 安装 archlinux 基本环境
 
@@ -159,8 +159,7 @@ lastmod: 2025-06-06T09:04:42.642Z
    pacman -S neovim sudo openssh
 
    # 建立vi、vim->到nvim的软链接（个人习惯）
-   ln -s /usr/bin/neovim /usr/bin/vi
-   ln -s /usr/bin/neovim /usr/bin/vi
+   ln -s /usr/bin/nvim /usr/bin/vi
 
    systemctl enable sshd   # 设置openssh开机自启
    ssh-keygen -A           # 生成本机的ssh key
@@ -173,7 +172,7 @@ lastmod: 2025-06-06T09:04:42.642Z
    # 执行 locale-gen 以生成 locale 信息
    locale-gen
    # 创建 locale.conf(5) 文件，并 编辑设定 LANG 变量，比如：
-   ehco "LANG=en_US.UTF-8" > /etc/locale.conf
+   echo "LANG=en_US.UTF-8" > /etc/locale.conf
    ```
 
 7. 网络配置
